@@ -14,4 +14,4 @@ export const getMyProfile = async () => {
       }
       return null
     }
-    revalidatePath("/", "layout");
+    // revalidatePath("/", "layout");

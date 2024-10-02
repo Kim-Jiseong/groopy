@@ -3,7 +3,7 @@ import Store from "./components/storePage";
 
 function StorePage() {
   return (
-    <div>
+    <div className="w-full">
       <Store />
     </div>
   );

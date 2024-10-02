@@ -21,7 +21,6 @@ export function ExpandableSidebar({
   const [isExpanded, setIsExpanded] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
-
   const handleMouseEnter = useCallback(() => {
     setIsExpanded(true);
   }, []);

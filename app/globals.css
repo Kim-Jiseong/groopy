@@ -33,9 +33,9 @@ body {
     --divider: 17, 17, 17, 0.15;
     --focus: 212 100% 50%;
     --content1: 0 0% 100%;
-    --content2: 0 0% 96%;
-    --content3: 0 0% 89.8%;
-    --content4: 0 0% 83.1%;
+    --content2: 240, 5%, 96%;
+    --content3: 240, 6%, 90%;
+    --content4: 240, 5%, 84%;
     --default: 0 0% 83.1%;
     --brand: 212 100% 50%;
     --brand-foreground: 0 0% 100%;
@@ -74,10 +74,10 @@ body {
     --foreground: 0 0% 98%;
     --divider: 255, 255, 255, 0.15;
     --focus: 212 100% 50%;
-    --content1: 0 0% 100%;
-    --content2: 0 0% 96%;
-    --content3: 0 0% 89.8%;
-    --content4: 0 0% 83.1%;
+    --content1: 240, 6%, 10%;
+    --content2: 240, 4%, 16%;
+    --content3: 240, 5%, 26%;
+    --content4: 240, 5%, 34%;
     --default: 0 0% 83.1%;
     --primary: 212 100% 50%;
     --primary-foreground: 0 0% 100%;

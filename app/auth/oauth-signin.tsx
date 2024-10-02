@@ -51,16 +51,16 @@ export function OAuthButtons({
       ))} */}
       <Button
         // onClick={() => console.log(callbackUrl)}
-        variant={"default"}
+        variant={"secondary"}
         onClick={async () => {
           await oAuthSignIn("google", next);
         }}
         size="lg"
-        className={" border-2 border-primary mt-10"}
+        className={"gap-2 border-2 border-brand mt-10 hover:bg-brand/30"}
       >
         <GoogleIcon />
         <Typography variant={"text"} style={{ fontWeight: 700 }}>
-          Continue with Google Account
+          Continue with Google
         </Typography>
       </Button>
     </>

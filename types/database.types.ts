@@ -261,6 +261,8 @@ export type Database = {
           average_token_usage: number | null
           created_at: string
           description: string | null
+          detail: string | null
+          image: string | null
           greeting: string | null
           id: number
           input_price: number | null
@@ -282,6 +284,8 @@ export type Database = {
           average_token_usage?: number | null
           created_at?: string
           description?: string | null
+          detail?: string | null
+          image?: string | null
           greeting?: string | null
           id?: number
           input_price?: number | null
@@ -303,6 +307,8 @@ export type Database = {
           average_token_usage?: number | null
           created_at?: string
           description?: string | null
+          detail?: string | null
+          image?: string | null
           greeting?: string | null
           id?: number
           input_price?: number | null

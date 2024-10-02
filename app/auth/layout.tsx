@@ -1,18 +1,18 @@
-import "./globals.css";
+import "../globals.css";
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 
-import { Providers } from "./providers";
+import { Providers } from "../providers";
 import { siteConfig } from "@/config/site";
 import { Toaster } from "@/components/ui/toaster";
-import Sidebar from "@/components/Sidebar/Sidebar";
+
 const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+  src: "../fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
 const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
+  src: "../fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
 });
@@ -83,8 +83,7 @@ export default function RootLayout({
           enableSystem
           // disableTransitionOnChange
         >
-          <main className="w-full flex flex-col md:flex-row min-h-screen pl-0 md:pl-16 ">
-            <Sidebar />
+          <main className="w-full min-h-screen ">
             {children}
             <Toaster />
           </main>
