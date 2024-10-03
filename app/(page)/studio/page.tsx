@@ -1,7 +1,7 @@
 import React from "react";
 
-function Studio() {
-  return <div>Studio</div>;
+function StudioPage() {
+  return <div>StudioPage</div>;
 }
 
-export default Studio;
+export default StudioPage;

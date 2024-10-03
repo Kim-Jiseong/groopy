@@ -1,4 +1,5 @@
-import "../globals.css";
+import "@/styles/globals.css";
+import "@/styles/markdown.css";
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 

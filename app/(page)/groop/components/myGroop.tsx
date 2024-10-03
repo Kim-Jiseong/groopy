@@ -11,32 +11,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import GroopCard from "./components/groopCard";
+import GroopCard from "./groopCard";
 import { popularTags } from "@/constant/popularTags";
 import { supabase } from "@/lib/supabaseClient";
 import { Tables } from "@/types/database.types";
 import { Skeleton } from "@/components/ui/skeleton";
-
-function StorePage() {
+function MyGroopPage({ profile }: { profile: Tables<"profile"> }) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState("popular");
+  const [sortBy, setSortBy] = useState("last_viewed");
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [groopList, setGroopList] = useState<Tables<"crew">[]>([]);
-
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Searching for:", searchTerm);
     getGroopList(searchTerm);
   };
 
-  const handleTagClick = (tag: string) => {
-    setSelectedTag((prevTag) => (prevTag === tag ? null : tag));
-  };
-
   const getGroopList = async (searchText: string) => {
     setIsLoading(true);
-    const { data, error } = await supabase.rpc(`search_crew_${sortBy}`, {
+
+    const { data, error } = await supabase.rpc("search_my_crew", {
+      p_profile_id: profile.id,
       search_text: searchText,
     });
 
@@ -44,16 +40,27 @@ function StorePage() {
       console.error("Error searching crew:", error);
       setGroopList([]);
     } else {
-      // console.log("data", data);
-      setGroopList(data);
+      console.log("data", data);
+
+      // sortBy 조건에 따라 정렬
+      const sortedData = data.sort((a: any, b: any) => {
+        if (sortBy === "last_viewed") {
+          return (
+            new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+          );
+        } else if (sortBy === "date_created") {
+          return (
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+          );
+        }
+        return 0;
+      });
+
+      setGroopList(sortedData);
     }
+
     setIsLoading(false);
   };
-  const filteredAndSortedGroops = useMemo(() => {
-    return groopList.filter((groop) =>
-      selectedTag ? groop.tags?.includes(selectedTag) : true
-    );
-  }, [groopList, selectedTag]);
 
   useEffect(() => {
     if (searchTerm === "") {
@@ -75,47 +82,22 @@ function StorePage() {
         </Button>
       </form>
 
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold mb-2">Tags</h2>
-        <div className="flex flex-wrap gap-2">
-          {popularTags.map((tag) => (
-            <Badge
-              key={tag}
-              variant={selectedTag === tag ? "brand" : "outline"}
-              className="cursor-pointer"
-              onClick={() => handleTagClick(tag)}
-            >
-              {tag}
-            </Badge>
-          ))}
-        </div>
-      </div>
-
-      {/* <div className="mb-6">
-        <h2 className="text-lg font-semibold mb-2">Trending Groops</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {filteredAndSortedGroops.slice(0, 3).map((groop) => (
-            <GroopCard key={groop.id} groop={groop} />
-          ))}
-        </div>
-      </div> */}
-
       <div>
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-semibold">All Groops</h2>
+          <h2 className="text-lg font-semibold">My Groops</h2>
           <Select value={sortBy} onValueChange={setSortBy}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="popular">Popular</SelectItem>
-              <SelectItem value="latest">Latest</SelectItem>
+              <SelectItem value="last_viewed">Last viewed</SelectItem>
+              <SelectItem value="date_created">Date created</SelectItem>
             </SelectContent>
           </Select>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {!isLoading
-            ? filteredAndSortedGroops.map((groop) => (
+            ? groopList.map((groop) => (
                 <GroopCard key={groop.id} groop={groop} />
               ))
             : Array(3)
@@ -132,4 +114,4 @@ function StorePage() {
   );
 }
 
-export default StorePage;
+export default MyGroopPage;
