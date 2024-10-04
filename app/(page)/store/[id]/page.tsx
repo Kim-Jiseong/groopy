@@ -64,7 +64,7 @@ async function StoreDetailPage({ params }: Props) {
                 </div>
               </CardContent>
               <CardFooter>
-                {auth ? (
+                {auth?.profile ? (
                   <HireBtn profile={auth.profile} crewInfo={groop} />
                 ) : (
                   <SignInBtn />
@@ -115,7 +115,7 @@ async function StoreDetailPage({ params }: Props) {
                     <Users size={20} />
                     <span>{groop.usage} users</span>
                   </div>
-                  {auth ? (
+                  {auth?.profile ? (
                     <HireBtn profile={auth.profile} crewInfo={groop} />
                   ) : (
                     <SignInBtn />
