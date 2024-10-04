@@ -40,25 +40,24 @@ function HireBtn({
           is_favorite: false,
         }
       );
-      if (InsertEmployedCrew) {
-        console.log(InsertEmployedCrew);
+      if (InsertEmployedCrew.data) {
+        toast({
+          title: "Groop Hired!",
+          description: "You have successfully hired this groop.",
+          action: (
+            <ToastAction
+              altText="Use this grooop"
+              onClick={() => {
+                router.push(`/board/${InsertEmployedCrew.data.id}`);
+              }}
+            >
+              Go Now
+            </ToastAction>
+          ),
+        });
+        setIsCrewEmployed(InsertEmployedCrew.data);
       }
       setIsLoading(false);
-      toast({
-        title: "Groop Hired!",
-        description: "You have successfully hired this groop.",
-        action: (
-          <ToastAction
-            altText="Use this grooop"
-            onClick={() => {
-              router.push(`/board/${InsertEmployedCrew.data.id}`);
-            }}
-          >
-            Go Now
-          </ToastAction>
-        ),
-      });
-      setIsCrewEmployed(InsertEmployedCrew.data);
     }
   };
 
