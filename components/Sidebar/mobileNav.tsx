@@ -15,6 +15,7 @@ import { Separator } from "../ui/separator";
 import { siteConfig } from "@/config/site";
 import { usePathname, useRouter } from "next/navigation";
 import User from "../User/User";
+import { Tables } from "@/types/database.types";
 
 export default function Component({
   className,
@@ -22,7 +23,7 @@ export default function Component({
   isExpanded = true,
 }: {
   className?: string;
-  auth?: Auth | null;
+  auth?: any;
   isExpanded?: boolean;
 }) {
   const router = useRouter();
