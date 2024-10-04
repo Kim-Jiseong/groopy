@@ -1,9 +1,8 @@
 "use client";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import {
   Select,
   SelectContent,
@@ -12,7 +11,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import GroopCard from "./groopCard";
-import { popularTags } from "@/constant/popularTags";
 import { supabase } from "@/lib/supabaseClient";
 
 import { Skeleton } from "@/components/ui/skeleton";

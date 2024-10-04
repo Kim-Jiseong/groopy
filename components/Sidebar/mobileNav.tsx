@@ -9,7 +9,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
-import { HamburgerMenuIcon } from "@radix-ui/react-icons";
+import { HamburgerMenuIcon, ChevronLeftIcon } from "@radix-ui/react-icons";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { siteConfig } from "@/config/site";
@@ -45,6 +45,9 @@ export default function Component({
         ${className} border-b-divider border-b w-full flex items-center gap-6 justify-between
       `}
     >
+      <Button variant="ghost" onClick={() => router.back()}>
+        <ChevronLeftIcon />
+      </Button>
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
           <Button variant="ghost">
