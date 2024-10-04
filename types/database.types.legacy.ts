@@ -161,8 +161,8 @@ export type Database = {
           id: number
           llm_provider_id: number
           name: string | null
-          profile_id: number | null
           updated_at: string
+          user_id: number | null
           value: string | null
         }
         Insert: {
@@ -170,8 +170,8 @@ export type Database = {
           id?: number
           llm_provider_id: number
           name?: string | null
-          profile_id?: number | null
           updated_at?: string
+          user_id?: number | null
           value?: string | null
         }
         Update: {
@@ -179,8 +179,8 @@ export type Database = {
           id?: number
           llm_provider_id?: number
           name?: string | null
-          profile_id?: number | null
           updated_at?: string
+          user_id?: number | null
           value?: string | null
         }
         Relationships: [
@@ -192,10 +192,10 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "api_key_profile_id_fkey"
-            columns: ["profile_id"]
+            foreignKeyName: "api_key_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "profile"
+            referencedRelation: "user"
             referencedColumns: ["id"]
           },
         ]
@@ -262,10 +262,9 @@ export type Database = {
           created_at: string
           description: string | null
           detail: string | null
-          greeting: string | null
-          has_unsaved: boolean
-          id: number
           image: string | null
+          greeting: string | null
+          id: number
           input_price: number | null
           is_deleted: boolean
           is_sequential: boolean | null
@@ -273,23 +272,22 @@ export type Database = {
           name: string
           output_price: number | null
           pre_questions: string[] | null
-          profile_id: number | null
           status: string
           tags: string[] | null
           task_ids: number[] | null
           updated_at: string
           usage: number | null
           use_history: boolean | null
+          profile_id: number | null
         }
         Insert: {
           average_token_usage?: number | null
           created_at?: string
           description?: string | null
           detail?: string | null
-          greeting?: string | null
-          has_unsaved?: boolean
-          id?: number
           image?: string | null
+          greeting?: string | null
+          id?: number
           input_price?: number | null
           is_deleted?: boolean
           is_sequential?: boolean | null
@@ -297,23 +295,22 @@ export type Database = {
           name?: string
           output_price?: number | null
           pre_questions?: string[] | null
-          profile_id?: number | null
           status?: string
           tags?: string[] | null
           task_ids?: number[] | null
           updated_at?: string
           usage?: number | null
           use_history?: boolean | null
+          profile_id?: number | null
         }
         Update: {
           average_token_usage?: number | null
           created_at?: string
           description?: string | null
           detail?: string | null
-          greeting?: string | null
-          has_unsaved?: boolean
-          id?: number
           image?: string | null
+          greeting?: string | null
+          id?: number
           input_price?: number | null
           is_deleted?: boolean
           is_sequential?: boolean | null
@@ -321,13 +318,13 @@ export type Database = {
           name?: string
           output_price?: number | null
           pre_questions?: string[] | null
-          profile_id?: number | null
           status?: string
           tags?: string[] | null
           task_ids?: number[] | null
           updated_at?: string
           usage?: number | null
           use_history?: boolean | null
+          profile_id?: number | null
         }
         Relationships: [
           {
@@ -338,10 +335,10 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "crew_profile_id_fkey"
-            columns: ["profile_id"]
+            foreignKeyName: "crew_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "profile"
+            referencedRelation: "user"
             referencedColumns: ["id"]
           },
         ]
@@ -398,8 +395,8 @@ export type Database = {
           is_deleted: boolean
           is_favorite: boolean
           is_owner: boolean
-          profile_id: number
           updated_at: string | null
+          profile_id: number
         }
         Insert: {
           created_at?: string
@@ -408,8 +405,8 @@ export type Database = {
           is_deleted?: boolean
           is_favorite?: boolean
           is_owner?: boolean
-          profile_id: number
           updated_at?: string | null
+          profile_id: number
         }
         Update: {
           created_at?: string
@@ -418,8 +415,8 @@ export type Database = {
           is_deleted?: boolean
           is_favorite?: boolean
           is_owner?: boolean
-          profile_id?: number
           updated_at?: string | null
+          profile_id?: number
         }
         Relationships: [
           {
@@ -430,10 +427,10 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "employed_crew_profile_id_fkey"
-            columns: ["profile_id"]
+            foreignKeyName: "employed_crew_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "profile"
+            referencedRelation: "user"
             referencedColumns: ["id"]
           },
         ]
@@ -585,60 +582,6 @@ export type Database = {
           is_deleted: boolean
           name: string | null
           updated_at: string
-          user_id: string | null
-        }
-        Insert: {
-          coin?: number | null
-          country_id?: number | null
-          created_at?: string
-          email?: string | null
-          id?: number
-          image?: string | null
-          is_deleted?: boolean
-          name?: string | null
-          updated_at?: string
-          user_id?: string | null
-        }
-        Update: {
-          coin?: number | null
-          country_id?: number | null
-          created_at?: string
-          email?: string | null
-          id?: number
-          image?: string | null
-          is_deleted?: boolean
-          name?: string | null
-          updated_at?: string
-          user_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "profile_user_id_fkey1"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "user_country_id_fkey"
-            columns: ["country_id"]
-            isOneToOne: false
-            referencedRelation: "country"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      profile_legacy: {
-        Row: {
-          coin: number | null
-          country_id: number | null
-          created_at: string
-          email: string | null
-          id: number
-          image: string | null
-          is_deleted: boolean
-          name: string | null
-          updated_at: string
           user_id: string
         }
         Insert: {
@@ -751,13 +694,13 @@ export type Database = {
           name: string
           output_price: number | null
           pre_questions: string[] | null
-          profile_id: number | null
           published_task_ids: number[] | null
           status: string
           tags: string[] | null
           updated_at: string
           usage: number | null
           use_history: boolean | null
+          user_id: number | null
         }
         Insert: {
           average_token_usage?: number | null
@@ -773,13 +716,13 @@ export type Database = {
           name?: string
           output_price?: number | null
           pre_questions?: string[] | null
-          profile_id?: number | null
           published_task_ids?: number[] | null
           status?: string
           tags?: string[] | null
           updated_at?: string
           usage?: number | null
           use_history?: boolean | null
+          user_id?: number | null
         }
         Update: {
           average_token_usage?: number | null
@@ -795,13 +738,13 @@ export type Database = {
           name?: string
           output_price?: number | null
           pre_questions?: string[] | null
-          profile_id?: number | null
           published_task_ids?: number[] | null
           status?: string
           tags?: string[] | null
           updated_at?: string
           usage?: number | null
           use_history?: boolean | null
+          user_id?: number | null
         }
         Relationships: [
           {
@@ -819,10 +762,10 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "published_crew_profile_id_fkey"
-            columns: ["profile_id"]
+            foreignKeyName: "published_crew_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: "profile"
+            referencedRelation: "user"
             referencedColumns: ["id"]
           },
         ]
@@ -1046,228 +989,56 @@ export type Database = {
         }
         Relationships: []
       }
+      user: {
+        Row: {
+          coin: number | null
+          country_id: number | null
+          created_at: string
+          email: string | null
+          id: number
+          image: string | null
+          is_deleted: boolean
+          name: string | null
+          updated_at: string
+        }
+        Insert: {
+          coin?: number | null
+          country_id?: number | null
+          created_at?: string
+          email?: string | null
+          id?: number
+          image?: string | null
+          is_deleted?: boolean
+          name?: string | null
+          updated_at?: string
+        }
+        Update: {
+          coin?: number | null
+          country_id?: number | null
+          created_at?: string
+          email?: string | null
+          id?: number
+          image?: string | null
+          is_deleted?: boolean
+          name?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_country_id_fkey"
+            columns: ["country_id"]
+            isOneToOne: false
+            referencedRelation: "country"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      binary_quantize:
-        | {
-            Args: {
-              "": string
-            }
-            Returns: unknown
-          }
-        | {
-            Args: {
-              "": unknown
-            }
-            Returns: unknown
-          }
-      halfvec_avg: {
-        Args: {
-          "": number[]
-        }
-        Returns: unknown
-      }
-      halfvec_out: {
-        Args: {
-          "": unknown
-        }
-        Returns: unknown
-      }
-      halfvec_send: {
-        Args: {
-          "": unknown
-        }
-        Returns: string
-      }
-      halfvec_typmod_in: {
-        Args: {
-          "": unknown[]
-        }
-        Returns: number
-      }
-      hnsw_bit_support: {
-        Args: {
-          "": unknown
-        }
-        Returns: unknown
-      }
-      hnsw_halfvec_support: {
-        Args: {
-          "": unknown
-        }
-        Returns: unknown
-      }
-      hnsw_sparsevec_support: {
-        Args: {
-          "": unknown
-        }
-        Returns: unknown
-      }
-      hnswhandler: {
-        Args: {
-          "": unknown
-        }
-        Returns: unknown
-      }
-      ivfflat_bit_support: {
-        Args: {
-          "": unknown
-        }
-        Returns: unknown
-      }
-      ivfflat_halfvec_support: {
-        Args: {
-          "": unknown
-        }
-        Returns: unknown
-      }
-      ivfflathandler: {
-        Args: {
-          "": unknown
-        }
-        Returns: unknown
-      }
-      l2_norm:
-        | {
-            Args: {
-              "": unknown
-            }
-            Returns: number
-          }
-        | {
-            Args: {
-              "": unknown
-            }
-            Returns: number
-          }
-      l2_normalize:
-        | {
-            Args: {
-              "": string
-            }
-            Returns: string
-          }
-        | {
-            Args: {
-              "": unknown
-            }
-            Returns: unknown
-          }
-        | {
-            Args: {
-              "": unknown
-            }
-            Returns: unknown
-          }
-      search_crew_latest: {
-        Args: {
-          search_text: string
-        }
-        Returns: {
-          id: number
-          name: string
-          tags: string[]
-          description: string
-          detail: string
-          status: string
-          created_at: string
-        }[]
-      }
-      search_crew_popular: {
-        Args: {
-          search_text: string
-        }
-        Returns: {
-          id: number
-          name: string
-          tags: string[]
-          description: string
-          detail: string
-          status: string
-          created_at: string
-        }[]
-      }
-      search_my_crew: {
-        Args: {
-          p_profile_id: number
-          search_text: string
-        }
-        Returns: {
-          id: number
-          crew_id: number
-          profile_id: number
-          is_deleted: boolean
-          is_favorite: boolean
-          is_owner: boolean
-          created_at: string
-          updated_at: string
-          crew_info: Json
-        }[]
-      }
-      sparsevec_out: {
-        Args: {
-          "": unknown
-        }
-        Returns: unknown
-      }
-      sparsevec_send: {
-        Args: {
-          "": unknown
-        }
-        Returns: string
-      }
-      sparsevec_typmod_in: {
-        Args: {
-          "": unknown[]
-        }
-        Returns: number
-      }
-      vector_avg: {
-        Args: {
-          "": number[]
-        }
-        Returns: string
-      }
-      vector_dims:
-        | {
-            Args: {
-              "": string
-            }
-            Returns: number
-          }
-        | {
-            Args: {
-              "": unknown
-            }
-            Returns: number
-          }
-      vector_norm: {
-        Args: {
-          "": string
-        }
-        Returns: number
-      }
-      vector_out: {
-        Args: {
-          "": string
-        }
-        Returns: unknown
-      }
-      vector_send: {
-        Args: {
-          "": string
-        }
-        Returns: string
-      }
-      vector_typmod_in: {
-        Args: {
-          "": unknown[]
-        }
-        Returns: number
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never

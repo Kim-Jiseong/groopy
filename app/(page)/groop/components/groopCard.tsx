@@ -9,32 +9,42 @@ import {
 } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tables } from "@/types/database.types";
+
 import { useRouter } from "next/navigation";
 
-export default function GroopCard({ groop }: { groop: Tables<"crew"> }) {
+interface GroopCardProps {
+  groop: Tables<"employed_crew"> & {
+    crew_info: Tables<"crew">;
+  };
+}
+
+export default function GroopCard({ groop }: GroopCardProps) {
   const router = useRouter();
   return (
     <Card
       className="flex flex-col h-[280px] transition-all duration-300 ease-in-out cursor-pointer hover:shadow-lg hover:scale-105 group"
-      onClick={() => router.push(`/board/${groop.id}`)}
+      onClick={() => router.push(`/board/${groop.crew_info.id}`)}
     >
       <CardHeader className="flex-shrink-0">
         <div className="flex items-center gap-4">
           <Avatar className="transition-transform duration-300 ease-in-out group-hover:scale-110">
-            <AvatarImage src={groop.image as string} alt={groop.name} />
+            <AvatarImage
+              src={groop.crew_info.image as string}
+              alt={groop.crew_info.name}
+            />
             <AvatarFallback>
-              {groop.name.slice(0, 2).toUpperCase()}
+              {groop.crew_info.name.slice(0, 2).toUpperCase()}
             </AvatarFallback>
           </Avatar>
           <h3 className="font-semibold truncate transition-colors duration-300 ease-in-out group-hover:text-primary">
-            {groop.name}
+            {groop.crew_info.name}
           </h3>
         </div>
       </CardHeader>
       <CardContent className="flex flex-col justify-between items-start flex-grow overflow-hidden pb-4">
         <ScrollArea className="h-[100px]">
           <p className="text-sm text-muted-foreground transition-colors duration-300 ease-in-out group-hover:text-foreground">
-            {groop.description}
+            {groop.crew_info.description}
           </p>
         </ScrollArea>
         <div
@@ -42,13 +52,13 @@ export default function GroopCard({ groop }: { groop: Tables<"crew"> }) {
          text-sm  p-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 ease-in-out text-brand
           `}
         >
-          Click to see more details{" "}
+          Click to start something special
         </div>
       </CardContent>
       <CardFooter className="flex-shrink-0">
         <div className="flex flex-wrap gap-2">
-          {groop.tags &&
-            groop.tags.map((tag) => (
+          {groop.crew_info.tags &&
+            groop.crew_info.tags.map((tag) => (
               <Badge
                 key={tag}
                 variant="outline"

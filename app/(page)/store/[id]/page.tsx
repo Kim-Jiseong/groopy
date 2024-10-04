@@ -12,6 +12,10 @@ import { Users } from "lucide-react";
 import React from "react";
 import Image from "next/image";
 import { formatDateTime } from "@/utils/formatTime";
+import { getMyProfile } from "@/service/user/action";
+import HireBtn from "./components/hireBtn";
+import { getEmployedCrewListByProfileId } from "@/service/employed_crew/action";
+import SignInBtn from "./components/signInBtn";
 
 type Props = {
   params: {
@@ -21,10 +25,8 @@ type Props = {
 
 async function StoreDetailPage({ params }: Props) {
   const groop = await getCrewInfoByID(params.id);
+  const auth = await getMyProfile();
 
-  const formatUsage = (usage: number) => {
-    return usage.toLocaleString("ko-KR");
-  };
   if (!groop) return;
   else
     return (
@@ -58,13 +60,15 @@ async function StoreDetailPage({ params }: Props) {
               <CardContent>
                 <div className="flex items-center justify-center space-x-2 text-muted-foreground">
                   <Users size={20} />
-                  <span>{formatUsage(groop.usage as number)} users</span>
+                  <span>{groop.usage} users</span>
                 </div>
               </CardContent>
               <CardFooter>
-                <Button className="w-full" size="lg">
-                  Hire this groop
-                </Button>
+                {auth ? (
+                  <HireBtn profile={auth.profile} crewInfo={groop} />
+                ) : (
+                  <SignInBtn />
+                )}
               </CardFooter>
             </Card>
 
@@ -82,11 +86,9 @@ async function StoreDetailPage({ params }: Props) {
             )}
 
             <Card>
-              <CardContent>
-                <p className="text-sm text-center">
-                  Last Update: {formatDateTime(groop.updated_at)}
-                </p>
-              </CardContent>
+              <p className="text-sm text-center py-4 px-2">
+                Last Update: {formatDateTime(groop.updated_at)}
+              </p>
             </Card>
           </div>
 
@@ -111,11 +113,13 @@ async function StoreDetailPage({ params }: Props) {
                   </p>
                   <div className="flex items-center justify-center space-x-2 text-muted-foreground mb-6">
                     <Users size={20} />
-                    <span>{formatUsage(groop.usage as number)} users</span>
+                    <span>{groop.usage} users</span>
                   </div>
-                  <Button className="w-full" size="lg">
-                    Hire this groop
-                  </Button>
+                  {auth ? (
+                    <HireBtn profile={auth.profile} crewInfo={groop} />
+                  ) : (
+                    <SignInBtn />
+                  )}
                 </div>
               </CardContent>
               <CardFooter className="bg-muted p-6">

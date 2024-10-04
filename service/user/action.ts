@@ -10,8 +10,8 @@ export const getMyProfile = async () => {
     } = await supabase.auth.getUser();
     if(user){
         const { data: profile, error: profileError } = await supabase.from("profile").select("*").eq("user_id", user.id).single()
+        revalidatePath("/", "layout");
         return { user: user, profile: profile }
       }
       return null
     }
-    // revalidatePath("/", "layout");

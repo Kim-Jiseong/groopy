@@ -23,8 +23,9 @@ import GroopCard from "./groopCard";
 import { popularTags } from "@/constant/popularTags";
 import { createClient } from "@/utils/supabase/client";
 import { supabase } from "@/lib/supabaseClient";
-import { Tables } from "@/types/database.types";
+
 import { Skeleton } from "@/components/ui/skeleton";
+import { Tables } from "@/types/database.types";
 
 // // 더미 데이터
 // const dummyGroops = [

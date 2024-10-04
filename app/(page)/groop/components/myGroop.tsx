@@ -14,14 +14,18 @@ import {
 import GroopCard from "./groopCard";
 import { popularTags } from "@/constant/popularTags";
 import { supabase } from "@/lib/supabaseClient";
-import { Tables } from "@/types/database.types";
+
 import { Skeleton } from "@/components/ui/skeleton";
+import { Tables } from "@/types/database.types";
+interface GroopProps extends Tables<"employed_crew"> {
+  crew_info: Tables<"crew">;
+}
 function MyGroopPage({ profile }: { profile: Tables<"profile"> }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("last_viewed");
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [groopList, setGroopList] = useState<Tables<"crew">[]>([]);
+  const [groopList, setGroopList] = useState<GroopProps[]>([]);
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Searching for:", searchTerm);

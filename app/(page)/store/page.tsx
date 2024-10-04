@@ -14,8 +14,9 @@ import {
 import GroopCard from "./components/groopCard";
 import { popularTags } from "@/constant/popularTags";
 import { supabase } from "@/lib/supabaseClient";
-import { Tables } from "@/types/database.types";
+
 import { Skeleton } from "@/components/ui/skeleton";
+import { Tables } from "@/types/database.types";
 
 function StorePage() {
   const [searchTerm, setSearchTerm] = useState("");
