@@ -16,7 +16,7 @@ export function ExpandableSidebar({
   auth,
 }: {
   className?: string;
-  auth?: Auth | null;
+  auth?: any;
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const router = useRouter();
