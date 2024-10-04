@@ -80,11 +80,13 @@ export default function RootLayout({
       >
         <Providers
           attribute="class"
-          defaultTheme="system"
+          defaultTheme={"light"}
           enableSystem
           // disableTransitionOnChange
         >
-          <main className="w-full flex flex-col md:flex-row min-h-screen pl-0 md:pl-16 ">
+          <main
+            className={`w-full flex flex-col md:flex-row min-h-screen md:min-h-screen pl-0 md:pl-16 pt-10 md:pt-0`}
+          >
             <Sidebar />
             {children}
             <Toaster />

@@ -3,9 +3,9 @@ import { Home, Store, Telescope, Users } from "lucide-react";
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "Groopy - Try out a professional AI Agent team in just 10 seconds. Make your own AI team in 10 minutes. ",
+  name: "groopy - Try out a professional AI Agent team in just 10 seconds. Make your own AI team in 10 minutes. ",
   description:
-    "Groopy - Try out a professional AI Agent team in just 10 seconds. Make your own AI team in 10 minutes",
+    "groopy - Try out a professional AI Agent team in just 10 seconds. Make your own AI team in 10 minutes",
   navItems: [
     {
       label: "Store",

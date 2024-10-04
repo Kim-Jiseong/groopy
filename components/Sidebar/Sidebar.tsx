@@ -6,10 +6,10 @@ import MobileNav from "./mobileNav";
 async function Sidebar() {
   const auth = await getMyProfile();
   return (
-    <div>
+    <header>
       <ExpandableSidebar className="hidden md:block" auth={auth} />
       <MobileNav className="block md:hidden" auth={auth} />
-    </div>
+    </header>
   );
 }
 

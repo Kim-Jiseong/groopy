@@ -43,8 +43,9 @@ export default function Component({
   return (
     <div
       className={`
-        ${className} border-b-divider border-b w-full flex items-center gap-6 justify-between
-      `}
+        ${className} fixed top-0 left-0 z-50 bg-background border-b-divider border-b w-full flex items-center gap-6 justify-between
+      ${pathname.startsWith("/board/") ? "hidden" : ""}
+        `}
     >
       <Button variant="ghost" onClick={() => router.back()}>
         <ChevronLeftIcon />

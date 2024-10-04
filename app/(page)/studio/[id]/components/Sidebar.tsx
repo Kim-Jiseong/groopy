@@ -16,7 +16,7 @@ function Sidebar({
     { name: "Tools", key: "tools" },
   ];
   return (
-    <div className="w-32 h-full flex flex-col justify-between border-r border-divider">
+    <div className="w-32 h-full flex flex-col justify-between border-r border-divider shrink-0">
       <nav className="flex flex-col space-y-2 px-2 py-4">
         {subMenu.map((menu) => (
           <Button

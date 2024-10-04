@@ -18,6 +18,7 @@ interface TypographyProps {
   lines?: number;
   className?: any;
   children?: React.ReactNode;
+  preWrap?: boolean;
 }
 
 const Typography = ({
@@ -30,14 +31,14 @@ const Typography = ({
   ellipsis = false,
   lines = 1,
   children,
+  preWrap = false,
 }: TypographyProps) => {
   const baseStyles = classNames(
     keep && `break-keep`,
-    `whitespace-pre-wrap`,
     color && `text-${color}`,
     weight && `font-${weight}`,
-    ellipsis && "overflow-hidden text-ellipsis",
-    ellipsis && lines && "line-clamp-" + lines
+    ellipsis && lines && "line-clamp-" + lines,
+    preWrap && `whitespace-pre-wrap`
   );
 
   switch (variant) {

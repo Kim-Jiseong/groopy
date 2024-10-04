@@ -40,7 +40,7 @@ export const createEmployedCrew = async (
       // 동일한 내역이 없을 때 insertData로 새로운 employed_crew 생성
       const { data: insertedData, error: insertError } = await supabase
       .from('employed_crew')
-      .insert({ profile_id: profileId, crew_id: insertData.crew_id, is_deleted: false })
+      .insert(insertData)
       .select().single(); 
       
       if (insertError) {
@@ -76,7 +76,7 @@ export const createEmployedCrew = async (
       }
     }
   }finally{
-    revalidatePath('/groop/[id]','layout');
+    revalidatePath('/','layout');
   }
   };
   
