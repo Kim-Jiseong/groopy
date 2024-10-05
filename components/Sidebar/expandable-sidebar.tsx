@@ -78,7 +78,7 @@ export function ExpandableSidebar({
               return (
                 <Button
                   key={item.href}
-                  variant={pathname === item.href ? "brand" : "ghost"}
+                  variant={pathname.startsWith(item.href) ? "brand" : "ghost"}
                   className="w-full justify-start px-3"
                   onClick={() => router.push(item.href)}
                 >

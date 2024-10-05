@@ -43,7 +43,7 @@ export async function oAuthSignIn(provider: Provider, nextUrl?: string | null) {
   });
   
   if (error) {
-    redirect(`/login?message=${encodeURIComponent("로그인에 실패했습니다.")}`);
+    redirect(`/login?message=${encodeURIComponent("Login failed")}`);
   }
 
   const cookieJar = cookies();

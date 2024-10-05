@@ -44,52 +44,102 @@ export const getCrewListByProfileID = async (profile_id: number) => {
 
 export const getCrewInfoByID = async (crew_id:string | number) => {
     const supabase = createClient();
-        const { data: crew, error: crewError } =
-            await supabase
+        const { data: crew, error: crewError } = await supabase
                 .from("crew").select("*").eq("id", crew_id).single()
         return crew
 
     }
 
-export const getCrewFullInfoByID = async (crew_id: number) => {
+    export const getCrewFullData = async (crewId: number) => {
+        // Initialize the Supabase client
         const supabase = createClient();
-        const { data: crewData, error: crewError } = 
-        await supabase
-            .from("crew")
-            .select("*")
-            .eq("id", crew_id)
-            .single();
-    
-        if (crewData && crewData.task_ids) {
-            // task_ids 배열에 맞춰 tasks를 가져오기
-            const { data: tasksData, error: tasksError } = 
-                await supabase
-                    .from("task")
-                    .select("*")
-                    .in("id", crewData.task_ids);  // task_ids 배열 내에 있는 task들만 선택
-    
-            // 각 task에 연결된 agents 가져오기
-            const { data: agentsData, error: agentsError } = 
-                await supabase
-                    .from("agent")
-                    .select("*")
-                    .in("task_id", crewData.task_ids);  // task_ids 배열 내의 task에 연결된 agents 선택
-    
-            if (tasksData && agentsData && crewData.task_ids) {
-                // task_ids 배열이 null이 아닌지 다시 한 번 체크 후 non-null assertion 사용
-                const sortedTasks = tasksData.sort((a, b) => 
-                    crewData.task_ids!.indexOf(Number(a.id)) - crewData.task_ids!.indexOf(Number(b.id))
-                );
-    
-                const result = {
-                    ...crewData,
-                    tasks: sortedTasks, 
-                    agents: agentsData 
-                };
-    
-                console.log(result, tasksData, agentsData);
-                return result;
-            }
+      
+        // Fetch the crew data
+        const { data: crewData, error: crewError } = await supabase
+          .from('crew')
+          .select('*')
+          .eq('id', crewId)
+          .single();
+      
+        if (crewError) {
+          console.error('Error fetching crew data:', crewError);
+          throw crewError;
         }
-    };
-    
+      
+        // Fetch tasks associated with the crew
+        const { data: tasksData, error: tasksError } = await supabase
+          .from('task')
+          .select('*')
+          .eq('crew_id', crewId)
+          .eq('is_deleted', false);
+      
+        if (tasksError) {
+          console.error('Error fetching tasks data:', tasksError);
+          throw tasksError;
+        }
+      
+        // Order tasksData according to crewData.task_ids
+        let orderedTasks: Tables<'task'>[] = [];
+      
+        if (crewData.task_ids && crewData.task_ids.length > 0) {
+          // Create a map of tasks by their ID for quick lookup
+          const taskMap = new Map(tasksData.map((task) => [task.id, task]));
+      
+          // Map over the task_ids to create an ordered array of tasks
+          orderedTasks = crewData.task_ids
+            .map((id) => taskMap.get(id))
+            .filter((task): task is Tables<'task'> => task !== undefined);
+        } else {
+          // If no task_ids are specified, use the tasksData as is
+          orderedTasks = tasksData;
+        }
+      
+        // Fetch agents associated with the crew
+        const { data: agentsData, error: agentsError } = await supabase
+          .from('agent')
+          .select('*')
+          .eq('crew_id', crewId)
+          .eq('is_deleted', false);
+      
+        if (agentsError) {
+          console.error('Error fetching agents data:', agentsError);
+          throw agentsError;
+        }
+      
+        // For each agent, fetch the associated tools
+        const agentsWithTools = await Promise.all(
+          agentsData.map(async (agent) => {
+            const toolIds = agent.tool_ids || [];
+      
+            let tools: Tables<'tool'>[] = [];
+            if (toolIds.length > 0) {
+              const { data: toolsData, error: toolsError } = await supabase
+                .from('tool')
+                .select('*')
+                .in('id', toolIds)
+                .eq('is_deleted', false);
+      
+              if (toolsError) {
+                console.error(`Error fetching tools for agent ${agent.id}:`, toolsError);
+                throw toolsError;
+              }
+      
+              tools = toolsData || [];
+            }
+      
+            return {
+              ...agent,
+              tools,
+            };
+          })
+        );
+      
+        // Construct the final data object with ordered tasks
+        const finalData = {
+          ...crewData,
+          tasks: orderedTasks,
+          agents: agentsWithTools,
+        };
+      
+        return finalData;
+      };
