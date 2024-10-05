@@ -13,7 +13,6 @@ function Sidebar({
     { name: "Groop", key: "crew" },
     { name: "Tasks", key: "tasks" },
     { name: "Agents", key: "agents" },
-    { name: "Tools", key: "tools" },
   ];
   return (
     <div className="w-32 h-full flex flex-col justify-between border-r border-divider shrink-0">
@@ -21,7 +20,7 @@ function Sidebar({
         {subMenu.map((menu) => (
           <Button
             key={menu.key}
-            variant={selectedTab === menu.key ? "default" : "ghost"}
+            variant={selectedTab === menu.key ? "brand" : "ghost"}
             className="w-full justify-start px-3 font-bold"
             onClick={() => setSelectedTab(menu.key)}
           >

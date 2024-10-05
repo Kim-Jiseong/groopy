@@ -35,8 +35,8 @@ interface TaskItemProps {
   index: number;
   onUpdate: (taskId: any, updatedFields: TablesUpdate<"task">) => void;
   onDelete: (taskId: any) => void;
-  openAccordion: string;
-  setOpenAccordion: (taskId: string) => void;
+  openAccordion: string[];
+  setOpenAccordion: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 export default function TaskItem({
@@ -57,10 +57,12 @@ export default function TaskItem({
     });
   };
   const toggleOpen = () => {
-    if (openAccordion === task.id.toString()) {
-      setOpenAccordion("");
+    if (openAccordion.includes(task.id.toString())) {
+      // Remove the id from the array
+      setOpenAccordion(openAccordion.filter((id) => id !== task.id.toString()));
     } else {
-      setOpenAccordion(task.id.toString());
+      // Add the id to the array
+      setOpenAccordion([...openAccordion, task.id.toString()]);
     }
   };
 
@@ -85,7 +87,7 @@ export default function TaskItem({
         label: label,
       };
     });
-    console.log(processedData);
+    // console.log(processedData);
     return processedData;
   };
 
@@ -93,10 +95,9 @@ export default function TaskItem({
     <AccordionItem value={task.id.toString()}>
       <Card
         className={`group duration-300 ${
-          openAccordion === task.id.toString() ? "border-brand" : ""
+          openAccordion.includes(task.id.toString()) ? "border-brand" : ""
         }`}
       >
-        {/* <AccordionTrigger> */}
         <CardHeader className="w-full flex flex-col " onClick={toggleOpen}>
           <div className="w-full flex gap-2 justify-between">
             <div className="flex flex-col mb-2">
@@ -123,14 +124,13 @@ export default function TaskItem({
             </div>
             <ChevronDown
               className={`duration-300 ${
-                openAccordion === task.id.toString() ? "rotate-180" : ""
+                openAccordion.includes(task.id.toString()) ? "rotate-180" : ""
               }`}
             />
           </div>
         </CardHeader>
-        {/* </AccordionTrigger> */}
 
-        <AccordionContent>
+        <AccordionContent className="pb-0">
           <CardContent>
             <div className="flex flex-row gap-4">
               <div className=" flex flex-col gap-2 w-[200px] shrink-0">
@@ -209,8 +209,8 @@ export default function TaskItem({
               size={"sm"}
               onClick={() => onDelete(task.id)}
             >
-              <Trash2 size={18} className="mr-1" />
-              Delete
+              <Trash2 size={16} className="mr-1" />
+              Delete task
             </Button>
           </CardFooter>
         </AccordionContent>

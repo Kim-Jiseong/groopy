@@ -8,6 +8,7 @@ import isEqual from "lodash/isEqual";
 import { toast } from "@/hooks/use-toast";
 import Typography from "@/components/common/Typography";
 import { Plus, Save } from "lucide-react";
+import { Accordion } from "@/components/ui/accordion";
 
 // Agent 타입 정의
 export type Agent = Omit<TablesInsert<"agent">, "id"> & {
@@ -19,12 +20,19 @@ type Tool = Tables<"tool">;
 export default function AgentEditor({
   crewInfo,
   setSaveTrigger,
+  llms,
+  tools,
 }: {
   crewInfo: CrewFullData;
   setSaveTrigger: React.Dispatch<React.SetStateAction<boolean>>;
+  llms: Tables<"llm">[];
+  tools: Tables<"tool">[];
 }) {
   const [agents, setAgents] = useState<Agent[]>(crewInfo.agents as Agent[]);
   const [pendingSave, setPendingSave] = useState(false);
+  const [openAccordion, setOpenAccordion] = useState<string[]>([
+    crewInfo.agents?.[0]?.id.toString(),
+  ]);
 
   const lastAgentRef = useRef<HTMLDivElement>(null);
   const scrollToBottom = () => {
@@ -155,13 +163,13 @@ export default function AgentEditor({
         );
         await Promise.all(deletions);
       }
+      setSaveTrigger((prev) => !prev);
 
       toast({
         title: "Changes saved!",
         description: "Agents change updated successfully!",
         variant: "brand",
       });
-      setSaveTrigger((prev) => !prev);
     } catch (error) {
       console.error("Error saving agents:", error);
       toast({
@@ -179,7 +187,7 @@ export default function AgentEditor({
 
   return (
     <div className="relative flex flex-col mx-auto w-full ">
-      <header className="sticky top-0 left-0 w-full h-14 px-4 py-2 bg-background border-b border-divider flex justify-between items-center gap-4">
+      <header className="sticky top-0 left-0 w-full h-14 px-4 py-2 bg-background border-b border-divider flex justify-between items-center gap-4 z-20">
         <Typography variant="subtitle1">Agents Setting</Typography>
         <div className="flex gap-2">
           <Button onClick={handleAddAgent}>
@@ -197,20 +205,30 @@ export default function AgentEditor({
         </div>
       </header>
       <div id="agent-container" className="flex flex-col p-4">
-        <ul className="flex flex-col gap-2">
-          {agents
-            .filter((agent) => !agent.is_deleted)
-            .map((agent, index) => (
-              <li key={agent.id}>
-                <AgentItem
-                  agent={agent}
-                  onUpdate={handleUpdateAgent}
-                  onDelete={handleDeleteAgent}
-                />
-              </li>
-            ))}
-          <div ref={lastAgentRef}></div>
-        </ul>
+        <Accordion
+          type={"multiple"}
+          value={openAccordion}
+          onValueChange={(value) => setOpenAccordion(value)}
+        >
+          <ul className="flex flex-col gap-2">
+            {agents
+              .filter((agent) => !agent.is_deleted)
+              .map((agent, index) => (
+                <li key={agent.id}>
+                  <AgentItem
+                    openAccordion={openAccordion}
+                    setOpenAccordion={setOpenAccordion}
+                    agent={agent}
+                    llms={llms}
+                    tools={tools}
+                    onUpdate={handleUpdateAgent}
+                    onDelete={handleDeleteAgent}
+                  />
+                </li>
+              ))}
+            <div ref={lastAgentRef}></div>
+          </ul>
+        </Accordion>
       </div>
     </div>
   );

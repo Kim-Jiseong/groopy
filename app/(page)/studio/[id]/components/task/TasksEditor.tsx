@@ -14,12 +14,7 @@ import isEqual from "lodash/isEqual";
 import { toast } from "@/hooks/use-toast";
 import Typography from "@/components/common/Typography";
 import { Plus, Save } from "lucide-react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Accordion } from "@/components/ui/accordion";
 
 // Task 타입 정의
 type Task = Omit<TablesInsert<"task">, "id"> & { id: number };
@@ -32,9 +27,9 @@ export default function TaskEditor({
   setSaveTrigger: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const [tasks, setTasks] = useState<Task[]>(crewInfo.tasks as Task[]);
-  const [openAccordion, setOpenAccordion] = useState<string>(
-    tasks?.[0]?.id.toString()
-  );
+  const [openAccordion, setOpenAccordion] = useState<string[]>([
+    tasks?.[0]?.id.toString(),
+  ]);
   const [pendingSave, setPendingSave] = useState(false);
 
   const lastTaskRef = useRef<HTMLDivElement>(null);
@@ -96,7 +91,10 @@ export default function TaskEditor({
       // 다른 필드들 초기화
     };
     setTasks([...tasks, newTask]);
-    setTimeout(scrollToBottom, 100);
+    setOpenAccordion([...openAccordion, newTask.id.toString()]);
+    setTimeout(() => {
+      scrollToBottom();
+    }, 100);
   };
 
   // 저장 핸들러
@@ -193,7 +191,7 @@ export default function TaskEditor({
     } catch (error) {
       console.error("Error saving tasks and crew:", error);
       toast({
-        title: "Error saving tasks and crew:",
+        title: "Error saving tasks and grooop:",
         variant: "destructive",
       });
     } finally {
@@ -203,7 +201,7 @@ export default function TaskEditor({
 
   return (
     <div className="relative flex flex-col mx-auto w-full ">
-      <header className="sticky top-0 left-0 w-full h-14 px-4 py-2 bg-background border-b border-divider flex justify-between items-center gap-4">
+      <header className="sticky top-0 left-0 w-full h-14 px-4 py-2 bg-background border-b border-divider flex justify-between items-center gap-4 z-20">
         <Typography variant="subtitle1">Tasks Setting</Typography>
         <div className="flex gap-2">
           <Button onClick={handleAddTask}>
@@ -222,8 +220,7 @@ export default function TaskEditor({
       </header>
       <div id="task container" className="flex flex-col p-4">
         <Accordion
-          type="single"
-          collapsible
+          type={"multiple"}
           value={openAccordion}
           onValueChange={(value) => setOpenAccordion(value)}
         >
