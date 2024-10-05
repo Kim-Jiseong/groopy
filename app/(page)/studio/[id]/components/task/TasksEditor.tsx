@@ -14,12 +14,27 @@ import isEqual from "lodash/isEqual";
 import { toast } from "@/hooks/use-toast";
 import Typography from "@/components/common/Typography";
 import { Plus, Save } from "lucide-react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 // Task 타입 정의
 type Task = Omit<TablesInsert<"task">, "id"> & { id: number };
 
-export default function TaskEditor({ crewInfo }: { crewInfo: CrewFullData }) {
+export default function TaskEditor({
+  crewInfo,
+  setSaveTrigger,
+}: {
+  crewInfo: CrewFullData;
+  setSaveTrigger: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const [tasks, setTasks] = useState<Task[]>(crewInfo.tasks as Task[]);
+  const [openAccordion, setOpenAccordion] = useState<string>(
+    tasks?.[0]?.id.toString()
+  );
   const [pendingSave, setPendingSave] = useState(false);
 
   const lastTaskRef = useRef<HTMLDivElement>(null);
@@ -174,6 +189,7 @@ export default function TaskEditor({ crewInfo }: { crewInfo: CrewFullData }) {
         description: "Tasks change updated successfully!",
         variant: "brand",
       });
+      setSaveTrigger((prev) => !prev);
     } catch (error) {
       console.error("Error saving tasks and crew:", error);
       toast({
@@ -184,10 +200,6 @@ export default function TaskEditor({ crewInfo }: { crewInfo: CrewFullData }) {
       setPendingSave(false);
     }
   };
-
-  useEffect(() => {
-    console.log("tasks", tasks);
-  }, [tasks.length]);
 
   return (
     <div className="relative flex flex-col mx-auto w-full ">
@@ -209,47 +221,56 @@ export default function TaskEditor({ crewInfo }: { crewInfo: CrewFullData }) {
         </div>
       </header>
       <div id="task container" className="flex flex-col p-4">
-        <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
-          <Droppable droppableId="tasks">
-            {(provided) => (
-              <ul
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                className="flex flex-col gap-2"
-              >
-                {tasks
-                  .filter((task) => !task.is_deleted)
-                  .map((task, index) => (
-                    <Draggable
-                      key={task.id}
-                      index={index}
-                      draggableId={task.id.toString()}
-                    >
-                      {(draggableProvided) => (
-                        <li
-                          {...draggableProvided.draggableProps}
-                          {...draggableProvided.dragHandleProps}
-                          ref={draggableProvided.innerRef}
-                        >
-                          <TaskItem
-                            key={task.id}
-                            task={task}
-                            tasks={crewInfo.tasks}
-                            agents={crewInfo.agents}
-                            index={index}
-                            onUpdate={handleUpdateTask}
-                            onDelete={handleDeleteTask}
-                          />
-                        </li>
-                      )}
-                    </Draggable>
-                  ))}
-                {provided.placeholder}
-                <div ref={lastTaskRef}></div>
-              </ul>
-            )}
-          </Droppable>
-        </DragDropContext>
+        <Accordion
+          type="single"
+          collapsible
+          value={openAccordion}
+          onValueChange={(value) => setOpenAccordion(value)}
+        >
+          <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
+            <Droppable droppableId="tasks">
+              {(provided) => (
+                <ul
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  className="flex flex-col gap-4"
+                >
+                  {tasks
+                    .filter((task) => !task.is_deleted)
+                    .map((task, index) => (
+                      <Draggable
+                        key={task.id}
+                        index={index}
+                        draggableId={task.id.toString()}
+                      >
+                        {(draggableProvided) => (
+                          <li
+                            {...draggableProvided.draggableProps}
+                            {...draggableProvided.dragHandleProps}
+                            ref={draggableProvided.innerRef}
+                          >
+                            <TaskItem
+                              key={task.id}
+                              task={task}
+                              tasks={crewInfo.tasks}
+                              agents={crewInfo.agents}
+                              index={index}
+                              onUpdate={handleUpdateTask}
+                              onDelete={handleDeleteTask}
+                              openAccordion={openAccordion}
+                              setOpenAccordion={setOpenAccordion}
+                            />
+                          </li>
+                        )}
+                      </Draggable>
+                    ))}
+                  {provided.placeholder}
+                  <div ref={lastTaskRef}></div>
+                </ul>
+              )}
+            </Droppable>
+          </DragDropContext>
+        </Accordion>
       </div>
     </div>
   );

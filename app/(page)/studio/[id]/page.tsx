@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
 import GroopEditor from "./components/groop/GroopEditor";
 import TasksEditor from "./components/task/TasksEditor";
-import AgentsEditor from "./components/AgentsEditor";
+import AgentsEditor from "./components/agents/AgentsEditor";
 import ToolsEditor from "./components/ToolsEditor";
 // import { useQuery } from "@tanstack/react-query";
 // import { getCrewInfo } from "@/service/crew/axios";
@@ -13,14 +13,22 @@ import { Frown } from "lucide-react";
 import { getCrewFullData } from "@/service/crew/action";
 import { CrewFullData } from "@/types/data";
 
-const renderTabContent = (selectedTab: string, crewInfo: any) => {
+const renderTabContent = (
+  selectedTab: string,
+  crewInfo: any,
+  setSaveTrigger: React.Dispatch<React.SetStateAction<boolean>>
+) => {
   switch (selectedTab) {
     case "crew":
       return <GroopEditor crewInfo={crewInfo} />;
     case "tasks":
-      return <TasksEditor crewInfo={crewInfo} />;
-    // case "agents":
-    //   return <AgentsEditor crewInfo={crewInfo} />;
+      return (
+        <TasksEditor crewInfo={crewInfo} setSaveTrigger={setSaveTrigger} />
+      );
+    case "agents":
+      return (
+        <AgentsEditor crewInfo={crewInfo} setSaveTrigger={setSaveTrigger} />
+      );
     // case "tools":
     //   return <ToolsEditor crewInfo={crewInfo} />;
     default:
@@ -30,7 +38,7 @@ const renderTabContent = (selectedTab: string, crewInfo: any) => {
 
 function StudioPage({ params }: { params: { id: number } }) {
   const [selectedTab, setSelectedTab] = useState("crew");
-
+  const [saveTrigger, setSaveTrigger] = useState(false);
   // const {
   //   data: crewInfo,
   //   status,
@@ -61,14 +69,14 @@ function StudioPage({ params }: { params: { id: number } }) {
 
   useEffect(() => {
     getCrewFullInfo();
-  }, []);
+  }, [saveTrigger]);
 
   return (
     <>
       <div className="hidden md:flex flex-row w-full">
         <Sidebar selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
         <div className="w-full  h-screen overflow-auto flex flex-col mx-auto">
-          {crewInfo && renderTabContent(selectedTab, crewInfo)}
+          {crewInfo && renderTabContent(selectedTab, crewInfo, setSaveTrigger)}
         </div>
       </div>
       <div className="flex md:hidden flex-col w-full h-96 items-center justify-center p-4 text-center gap-4">
