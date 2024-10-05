@@ -6,10 +6,11 @@ import Typography from "@/components/common/Typography";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import CreateGroopBtn from "./components/createGroopBtn";
+import { redirect } from "next/navigation";
 
 async function StudioPage() {
   const auth = await getMyProfile();
-  if (!auth) return;
+  if (!auth) return redirect("/auth");
 
   const crewList = await getCrewListByProfileID(auth?.profile.id);
   return (
