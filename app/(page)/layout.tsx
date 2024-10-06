@@ -85,7 +85,7 @@ export default function RootLayout({
           // disableTransitionOnChange
         >
           <main
-            className={`w-full flex flex-col md:flex-row min-h-screen md:min-h-screen pl-0 md:pl-16 pt-10 md:pt-0`}
+            className={`w-full flex flex-col md:flex-row min-h-screen md:min-h-screen pl-0 md:pl-16 pt-14 md:pt-0`}
           >
             <Sidebar />
             {children}

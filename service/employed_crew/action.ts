@@ -17,6 +17,30 @@ export const getEmployedCrewListByProfileId = async (profileId: number) => {
   
     return data; 
   };
+  
+export const getEmployedCrewWithPublishedCrewData = async (employed_crew_id: number) => {
+    const supabase = createClient();
+    const { data, error } = await supabase
+      .from('employed_crew')
+      .select('*')
+      .eq('id', employed_crew_id).single();
+  
+    if(data){
+        const { data: crewData, error: crewError } = await supabase
+          .from('published_crew')
+          .select('*')
+          .eq('crew_id', data.crew_id)
+        if (crewError) {
+          throw new Error('published_crew 데이터 조회 중 오류가 발생했습니다.');
+        }
+        return {...data, latest_published_crew:crewData?.[crewData.length-1]};
+    }
+
+    if (error) {
+      throw new Error('employed_crew 목록 조회 중 오류가 발생했습니다.');
+    }
+  
+  };
 
 export const createEmployedCrew = async (
     profileId: number,
