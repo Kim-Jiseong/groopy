@@ -12,15 +12,7 @@ import TagNdetail from "./tagNdetail";
 import GreetingNpq from "./greetingNpq";
 import { supabase } from "@/lib/supabaseClient";
 import { toast } from "@/hooks/use-toast";
-
-//name
-//description
-//image
-
-//detail
-//tag
-//greeting
-//pre_questions
+import PublishBtn from "./PublishBtn";
 
 function GroopEditor({
   crewInfo,
@@ -45,7 +37,7 @@ function GroopEditor({
         .select()
         .single();
       if (crewUpdateError) throw crewUpdateError;
-      console.log("crew_updated", updatedCrew);
+      // console.log("crew_updated", updatedCrew);
       toast({
         title: "Changes saved!",
         description: "Groop change updated successfully!",
@@ -59,7 +51,6 @@ function GroopEditor({
         variant: "destructive",
       });
     } finally {
-      // await supabase.from("crew").upsert(crewData);
       setPendingSave(false);
     }
   };
@@ -73,10 +64,7 @@ function GroopEditor({
       <header className="sticky top-0 left-0 w-full h-14 px-4 py-2 bg-background border-b border-divider flex justify-between items-center gap-4 z-20">
         <Typography variant="subtitle1">Groop Setting</Typography>
         <div className="flex gap-2">
-          <Button variant={"default"}>
-            <CloudUpload size={18} className="mr-1" />
-            Publish
-          </Button>
+          <PublishBtn crewId={crewData.id} />
           <Button
             onClick={handleSave}
             variant={"brand"}
