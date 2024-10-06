@@ -81,7 +81,7 @@ function StudioPage({ params }: { params: { id: number } }) {
 
   const getCrewFullInfo = async () => {
     const crewInfo = await getCrewFullData(params.id);
-    // console.log(crewInfo);
+    console.log(crewInfo);
     setCrewInfo(crewInfo);
   };
 

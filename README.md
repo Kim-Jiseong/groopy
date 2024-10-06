@@ -1,3 +1,14 @@
+![Welcome to Groopy](https://vufqadhpxvvugtkaeyjx.supabase.co/storage/v1/object/public/assets/image/welcome_groopy.jpg?t=2024-10-06T13%3A11%3A09.559Z)
+
+## To use our service, visit the link below.
+
+[Visit groopy here!](https://groopy.me)
+
+If you want to know how to use, check this video.
+[groopy demo Video](https://youtu.be/XxllW58vVt4)
+
+---
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
