@@ -16,7 +16,7 @@ import { supabase } from "@/lib/supabaseClient";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tables } from "@/types/database.types";
 interface GroopProps extends Tables<"employed_crew"> {
-  crew_info: Tables<"crew">;
+  published_crew: Tables<"published_crew">;
 }
 function MyGroopPage({ profile }: { profile: Tables<"profile"> }) {
   const [searchTerm, setSearchTerm] = useState("");

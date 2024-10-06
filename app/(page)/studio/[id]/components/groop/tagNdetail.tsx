@@ -49,7 +49,7 @@ function TagNdetail({
           variant="inverted"
           //   animation={2}
           maxCount={3}
-          placeholder="Select tasks(Optional)"
+          placeholder="Select tags(Optional)"
           asChild
           className="w-full"
         />

@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 
 interface GroopCardProps {
   groop: Tables<"employed_crew"> & {
-    crew_info: Tables<"crew">;
+    published_crew: Tables<"published_crew">;
   };
 }
 
@@ -23,28 +23,28 @@ export default function GroopCard({ groop }: GroopCardProps) {
   return (
     <Card
       className="flex flex-col h-[280px] transition-all duration-300 ease-in-out cursor-pointer hover:shadow-lg hover:scale-105 group"
-      onClick={() => router.push(`/board/${groop.crew_info.id}`)}
+      onClick={() => router.push(`/board/${groop.id}`)}
     >
       <CardHeader className="flex-shrink-0">
         <div className="flex items-center gap-4">
           <Avatar className="transition-transform duration-300 ease-in-out group-hover:scale-110">
             <AvatarImage
-              src={groop.crew_info.image as string}
-              alt={groop.crew_info.name}
+              // src={groop.published_crew.image as string}
+              alt={groop.published_crew.name}
             />
             <AvatarFallback>
-              {groop.crew_info.name.slice(0, 2).toUpperCase()}
+              {groop.published_crew.name.slice(0, 2).toUpperCase()}
             </AvatarFallback>
           </Avatar>
           <h3 className="font-semibold truncate transition-colors duration-300 ease-in-out group-hover:text-primary">
-            {groop.crew_info.name}
+            {groop.published_crew.name}
           </h3>
         </div>
       </CardHeader>
       <CardContent className="flex flex-col justify-between items-start flex-grow overflow-hidden pb-4">
         <ScrollArea className="h-[100px]">
           <p className="text-sm text-muted-foreground transition-colors duration-300 ease-in-out group-hover:text-foreground">
-            {groop.crew_info.description}
+            {groop.published_crew.description}
           </p>
         </ScrollArea>
         <div
@@ -57,8 +57,8 @@ export default function GroopCard({ groop }: GroopCardProps) {
       </CardContent>
       <CardFooter className="flex-shrink-0">
         <div className="flex flex-wrap gap-2">
-          {groop.crew_info.tags &&
-            groop.crew_info.tags.map((tag) => (
+          {groop.published_crew.tags &&
+            groop.published_crew.tags.map((tag) => (
               <Badge
                 key={tag}
                 variant="outline"
