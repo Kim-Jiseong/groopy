@@ -24,6 +24,7 @@ export const getChatListByECID = async (employed_crew_id: number) => {
                 .from("chat")
                 .select("*")
                 .eq("employed_crew_id", employed_crew_id)
+                .eq("is_deleted", false)
                 .order("updated_at", { ascending: false });
         return chat
 
