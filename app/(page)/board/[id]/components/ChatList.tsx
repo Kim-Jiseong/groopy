@@ -56,6 +56,16 @@ function ChatList({
           <div className="flex flex-col w-full items-center py-4">
             <Loader2 className="text-brand mr-2 h-4 w-4 animate-spin " />
           </div>
+        ) : chatList.length === 0 ? (
+          <div>
+            <Typography
+              variant="text"
+              className="p-4 text-center text-gray-500"
+            >
+              You don&apos;t have any chats yet. <br />
+              Click the button above to start a new chat.
+            </Typography>
+          </div>
         ) : (
           chatList.map((chat) => (
             <div
