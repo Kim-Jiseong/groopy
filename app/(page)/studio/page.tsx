@@ -27,7 +27,19 @@ async function StudioPage() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {crewList &&
-          crewList.map((crew) => <GroopCard key={crew.id} groop={crew} />)}
+          (crewList?.length === 0 ? (
+            <div>
+              <Typography
+                variant="text"
+                className="p-4 text-center text-gray-500"
+              >
+                You don&apos;t have any groop yet. <br />
+                Click the button above to start building new groop.
+              </Typography>
+            </div>
+          ) : (
+            crewList.map((crew) => <GroopCard key={crew.id} groop={crew} />)
+          ))}
       </div>
     </div>
   );

@@ -1,5 +1,14 @@
 import { Label } from "@/components/ui/label";
 import { MultiSelect } from "@/components/ui/multi-select";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { popularTags } from "@/constant/popularTags";
 import { CrewFullData } from "@/types/data";
@@ -32,11 +41,36 @@ function TagNdetail({
     return processedData;
   };
 
+  const handleStatusChange = (e: string) => {
+    onUpdate({ status: e });
+  };
+
   const handleTagsChange = (e: string[]) => {
     onUpdate({ tags: e });
   };
   return (
     <div className="p-4 flex flex-col gap-4">
+      <div className="grid w-full gap-1.5">
+        <Label htmlFor="tags" className="font-semibold">
+          Status
+        </Label>
+        <Select
+          value={crewData.status}
+          onValueChange={(e) => handleStatusChange(e)}
+        >
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Groop Status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Groop Status</SelectLabel>
+
+              <SelectItem value={"PUBLIC"}>Public</SelectItem>
+              <SelectItem value={"PRIVATE"}>Private</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
       <div className="grid w-full gap-1.5">
         <Label htmlFor="tags" className="font-semibold">
           Tags

@@ -13,6 +13,15 @@ import GreetingNpq from "./greetingNpq";
 import { supabase } from "@/lib/supabaseClient";
 import { toast } from "@/hooks/use-toast";
 import PublishBtn from "./PublishBtn";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 function GroopEditor({
   crewInfo,
