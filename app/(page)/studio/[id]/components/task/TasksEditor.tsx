@@ -137,17 +137,14 @@ export default function TaskEditor({
         insertedTasks = insertedData || [];
 
         // 임시 ID를 실제 ID로 교체
+        const idMapping: { [key: number]: number } = {};
+        tasksToCreate.forEach((task, index) => {
+          idMapping[task.id] = insertedTasks[index].id;
+        });
+
         updatedTasks = tasks.map((task) => {
-          if (task.id < 0) {
-            const insertedTask = insertedTasks.find(
-              (t) =>
-                t.created_at === task.created_at &&
-                t.name === task.name &&
-                t.description === task.description
-            );
-            if (insertedTask) {
-              return { ...task, id: insertedTask.id };
-            }
+          if (idMapping[task.id]) {
+            return { ...task, id: idMapping[task.id] };
           }
           return task;
         });
