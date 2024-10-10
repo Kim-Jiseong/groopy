@@ -1,5 +1,13 @@
 ![Welcome to Groopy](https://vufqadhpxvvugtkaeyjx.supabase.co/storage/v1/object/public/assets/image/welcome_groopy.jpg?t=2024-10-06T13%3A11%3A09.559Z)
 
+# Groopy
+
+Groopy는 누구나 쉽게 AI 팀을 만들고 활용할 수 있는 노코드 플랫폼입니다. 이 플랫폼을 통해 사용자는 다양한 작업을 자동화하고, 자신의 AI 팀을 공유하거나 판매하여 수익을 창출할 수 있습니다.
+
+## 데모
+
+Groopy의 데모 버전을 확인하려면 [groopy.me](https://groopy.me)로 접속하세요.
+
 ## To use our service, visit the link below.
 
 [Visit groopy here!](https://groopy.me)
