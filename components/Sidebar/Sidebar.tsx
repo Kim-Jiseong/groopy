@@ -1,6 +1,6 @@
 import React from "react";
 import { ExpandableSidebar } from "./expandable-sidebar";
-import { getMyProfile } from "@/service/user/action";
+import { getMyProfile } from "@/service/profile/action";
 import MobileNav from "./mobileNav";
 
 async function Sidebar() {

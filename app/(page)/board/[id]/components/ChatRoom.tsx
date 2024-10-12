@@ -1,18 +1,15 @@
 "use client";
-import MarkdownRenderer from "@/components/common/MarkdownRenderer";
 import Typography from "@/components/common/Typography";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { createUserMessage, getChatFullData } from "@/service/chat/action";
 import { ChatFullData, Cycle } from "@/types/data";
 import { Tables } from "@/types/database.types";
 import { ChevronLeftIcon, Loader2, Send } from "lucide-react";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MessageList from "./MessageList";
-import { useQuery } from "@tanstack/react-query";
-import { getChatFullInfo, kickOffChat } from "@/service/chat/axios";
-import LoadingStudioId from "@/app/(page)/studio/[id]/loading";
+import { kickOffChat } from "@/service/chat/axios";
+import { supabase } from "@/lib/supabaseClient";
 
 function ChatRoom({
   selectedChat,
@@ -104,26 +101,27 @@ function ChatRoom({
   const handleSendMessage = async () => {
     if (!inputMessage.trim()) return;
 
-    const newCycleId = -Date.now(); // Negative timestamp ensures uniqueness
-    const newMessageId = newCycleId - 1;
+    // Optimistic UI 업데이트 (임시 ID 사용)
+    const tempCycleId = -Date.now(); // 고유성을 보장하는 음수 타임스탬프
+    const tempMessageId = tempCycleId - 1;
 
     const newMessage = {
-      id: newMessageId,
+      id: tempMessageId,
       created_at: new Date().toISOString(),
       cost: null,
       input_token: null,
       output_token: null,
       content: inputMessage,
       task_id: null,
-      cycle_id: newCycleId,
+      cycle_id: tempCycleId,
       role: "user",
-      chat_id: selectedChat as number, // Force cast to number
+      chat_id: selectedChat as number,
       type: null,
       agent_id: null,
     };
 
     const newCycle = {
-      id: newCycleId,
+      id: tempCycleId,
       created_at: new Date().toISOString(),
       status: "STARTED",
       cost: null,
@@ -156,21 +154,111 @@ function ChatRoom({
 
     setInputMessage("");
     setIsWaitingAI(true);
-    const creaatedCycleAndMessage = await createUserMessage({
-      chat_id: selectedChat as number,
-      message: inputMessage,
-    });
-    if (creaatedCycleAndMessage) {
-      console.log(creaatedCycleAndMessage);
-      const kickOffChatResponse = await kickOffChat({
-        employed_crew_id: employed_crew_id,
+
+    // 서버로 메시지 전송
+    try {
+      const createdCycleAndMessage = await createUserMessage({
         chat_id: selectedChat as number,
-      })
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
+        message: inputMessage,
+      });
+
+      if (createdCycleAndMessage) {
+        console.log(createdCycleAndMessage);
+        await kickOffChat({
+          employed_crew_id: employed_crew_id,
+          chat_id: selectedChat as number,
+        });
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
+  // // Supabase 실시간 업데이트 구독
+  // useEffect(() => {
+  //   if (!supabase || !selectedChat) return;
+
+  //   const channel = supabase
+  //     .channel(`public:message`)
+  //     .on(
+  //       "postgres_changes",
+  //       {
+  //         event: "INSERT",
+  //         schema: "public",
+  //         table: "message",
+  //         // 필터링은 불가능하므로 모든 메시지에 대해 구독
+  //       },
+  //       async (payload) => {
+  //         const newMessage = payload.new as Tables<"message">;
+  //         console.log("newMessage", newMessage);
+  //         // 새로운 메시지의 cycle_id를 통해 cycle의 chat_id를 가져옴
+  //         const { data: cycleData, error: cycleError } = await supabase
+  //           .from("cycle")
+  //           .select("chat_id")
+  //           .eq("id", (newMessage.cycle_id as number) + 1)
+  //           .single();
+
+  //         if (cycleError || !cycleData) {
+  //           console.error("Cycle 정보를 가져오는 데 실패했습니다:", cycleError);
+  //           return;
+  //         }
+
+  //         // cycle의 chat_id가 현재 selectedChat과 일치하는지 확인
+  //         if (cycleData.chat_id === selectedChat) {
+  //           // 상태 업데이트
+  //           setChatFullData((prevChatFullData) => {
+  //             if (!prevChatFullData) return prevChatFullData;
+
+  //             const updatedCycles = prevChatFullData.cycles.map((cycle) => {
+  //               if (cycle.id === newMessage.cycle_id) {
+  //                 return {
+  //                   ...cycle,
+  //                   messages: [...cycle.messages, newMessage],
+  //                 };
+  //               }
+  //               return cycle;
+  //             });
+
+  //             // 만약 해당 cycle이 기존에 없던 새로운 cycle이라면 추가
+  //             const isNewCycle = !prevChatFullData.cycles.some(
+  //               (cycle) => cycle.id === newMessage.cycle_id
+  //             );
+
+  //             if (isNewCycle) {
+  //               const newCycle: Cycle = {
+  //                 id: newMessage.cycle_id!,
+  //                 chat_id: cycleData.chat_id,
+  //                 created_at: new Date().toISOString(),
+  //                 status: "STARTED",
+  //                 cost: null,
+  //                 price: null,
+  //                 total_token: null,
+  //                 execution_id: null,
+  //                 thread_id: null,
+  //                 messages: [newMessage],
+  //               };
+
+  //               return {
+  //                 ...prevChatFullData,
+  //                 cycles: [...prevChatFullData.cycles, newCycle],
+  //               };
+  //             }
+
+  //             return {
+  //               ...prevChatFullData,
+  //               cycles: updatedCycles,
+  //             };
+  //           });
+  //         }
+  //       }
+  //     )
+  //     .subscribe();
+
+  //   // 컴포넌트 언마운트 시 구독 해제
+  //   return () => {
+  //     supabase.removeChannel(channel);
+  //   };
+  // }, [chatFullData, selectedChat]);
   return (
     <div
       className={`w-full h-screen flex flex-col 

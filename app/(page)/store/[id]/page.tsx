@@ -12,7 +12,7 @@ import { Users } from "lucide-react";
 import React from "react";
 import Image from "next/image";
 import { formatDateTime } from "@/utils/formatTime";
-import { getMyProfile } from "@/service/user/action";
+import { getMyProfile } from "@/service/profile/action";
 import HireBtn from "./components/hireBtn";
 import { getEmployedCrewListByProfileId } from "@/service/employed_crew/action";
 import SignInBtn from "./components/signInBtn";

@@ -1,4 +1,4 @@
-import { getMyProfile } from "@/service/user/action";
+import { getMyProfile } from "@/service/profile/action";
 import MyGroopPage from "./components/myGroop";
 import { redirect } from "next/navigation";
 

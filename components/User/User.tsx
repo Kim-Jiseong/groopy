@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
-import { getMyProfile } from "@/service/user/action";
+import { getMyProfile } from "@/service/profile/action";
 import { useRouter } from "next/navigation";
 import Typography from "../common/Typography";
 import ProfileModalContainer from "../ProfileModal/ProfileModalContainer";

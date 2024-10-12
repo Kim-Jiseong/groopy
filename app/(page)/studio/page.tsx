@@ -1,5 +1,5 @@
 import { getCrewListByProfileID } from "@/service/crew/action";
-import { getMyProfile } from "@/service/user/action";
+import { getMyProfile } from "@/service/profile/action";
 import React, { useState } from "react";
 import GroopCard from "./components/groopCard";
 import Typography from "@/components/common/Typography";
