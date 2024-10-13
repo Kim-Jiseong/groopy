@@ -99,7 +99,7 @@ export const createUserMessage = async ({ chat_id, message }: { chat_id:  number
         .from('cycle')
         .insert({
             chat_id: chat_id,
-            status: "STARTED",
+            status: "FINISHED",
         }).select().single();
         if(insertCycleError){
             throw new Error('cycle 생성 중 오류가 발생했습니다.');
@@ -117,6 +117,8 @@ export const createUserMessage = async ({ chat_id, message }: { chat_id:  number
         if (insertMessageError) {
             throw new Error('message 생성 중 오류가 발생했습니다.');
         }
+
+
         return {cycle: insertedCycleData, message: insertedMessageData};
     }
     return {message:"chat_id is not a number"};
