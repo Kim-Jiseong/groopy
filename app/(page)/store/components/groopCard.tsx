@@ -11,12 +11,16 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tables } from "@/types/database.types";
 import { useRouter } from "next/navigation";
 
-export default function GroopCard({ groop }: { groop: Tables<"crew"> }) {
+export default function GroopCard({
+  groop,
+}: {
+  groop: Tables<"published_crew">;
+}) {
   const router = useRouter();
   return (
     <Card
       className="flex flex-col h-[280px] transition-all duration-300 ease-in-out cursor-pointer hover:shadow-lg hover:scale-105 group"
-      onClick={() => router.push(`/store/${groop.id}`)}
+      onClick={() => router.push(`/store/${groop.crew_id}`)}
     >
       <CardHeader className="flex-shrink-0">
         <div className="flex items-center gap-4">

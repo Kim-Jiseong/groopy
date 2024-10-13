@@ -263,7 +263,7 @@ export type Database = {
           description: string | null
           detail: string | null
           greeting: string | null
-          has_unsaved: boolean
+          has_published: boolean
           id: number
           image: string | null
           input_price: number | null
@@ -287,7 +287,7 @@ export type Database = {
           description?: string | null
           detail?: string | null
           greeting?: string | null
-          has_unsaved?: boolean
+          has_published?: boolean
           id?: number
           image?: string | null
           input_price?: number | null
@@ -311,7 +311,7 @@ export type Database = {
           description?: string | null
           detail?: string | null
           greeting?: string | null
-          has_unsaved?: boolean
+          has_published?: boolean
           id?: number
           image?: string | null
           input_price?: number | null
@@ -742,8 +742,10 @@ export type Database = {
           created_at: string
           crew_id: number | null
           description: string | null
+          detail: string | null
           greeting: string | null
           id: number
+          image: string | null
           input_price: number | null
           is_deleted: boolean
           is_sequential: boolean | null
@@ -764,8 +766,10 @@ export type Database = {
           created_at?: string
           crew_id?: number | null
           description?: string | null
+          detail?: string | null
           greeting?: string | null
           id?: number
+          image?: string | null
           input_price?: number | null
           is_deleted?: boolean
           is_sequential?: boolean | null
@@ -786,8 +790,10 @@ export type Database = {
           created_at?: string
           crew_id?: number | null
           description?: string | null
+          detail?: string | null
           greeting?: string | null
           id?: number
+          image?: string | null
           input_price?: number | null
           is_deleted?: boolean
           is_sequential?: boolean | null
@@ -1168,12 +1174,14 @@ export type Database = {
         }
         Returns: {
           id: number
+          crew_id: number
           name: string
           tags: string[]
           description: string
-          detail: string
+          greeting: string
           status: string
           created_at: string
+          updated_at: string
         }[]
       }
       search_crew_popular: {
@@ -1182,12 +1190,15 @@ export type Database = {
         }
         Returns: {
           id: number
+          crew_id: number
           name: string
           tags: string[]
           description: string
-          detail: string
+          greeting: string
           status: string
+          usage: number
           created_at: string
+          updated_at: string
         }[]
       }
       search_my_crew: {
@@ -1204,7 +1215,7 @@ export type Database = {
           is_owner: boolean
           created_at: string
           updated_at: string
-          crew_info: Json
+          published_crew: Json
         }[]
       }
       sparsevec_out: {

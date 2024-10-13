@@ -7,14 +7,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getCrewInfoByID } from "@/service/crew/action";
+import { getPublishedCrewInfoByCrewID } from "@/service/crew/action";
 import { Users } from "lucide-react";
 import React from "react";
 import Image from "next/image";
 import { formatDateTime } from "@/utils/formatTime";
 import { getMyProfile } from "@/service/profile/action";
 import HireBtn from "./components/hireBtn";
-import { getEmployedCrewListByProfileId } from "@/service/employed_crew/action";
+
 import SignInBtn from "./components/signInBtn";
 
 type Props = {
@@ -24,7 +24,7 @@ type Props = {
 };
 
 async function StoreDetailPage({ params }: Props) {
-  const groop = await getCrewInfoByID(params.id);
+  const groop = await getPublishedCrewInfoByCrewID(params.id);
   const auth = await getMyProfile();
 
   if (!groop) return;
@@ -65,7 +65,7 @@ async function StoreDetailPage({ params }: Props) {
               </CardContent>
               <CardFooter>
                 {auth?.profile ? (
-                  <HireBtn profile={auth.profile} crewInfo={groop} />
+                  <HireBtn profile={auth.profile} publishedCrewInfo={groop} />
                 ) : (
                   <SignInBtn />
                 )}
@@ -116,7 +116,7 @@ async function StoreDetailPage({ params }: Props) {
                     <span>{groop.usage} users</span>
                   </div>
                   {auth?.profile ? (
-                    <HireBtn profile={auth.profile} crewInfo={groop} />
+                    <HireBtn profile={auth.profile} publishedCrewInfo={groop} />
                   ) : (
                     <SignInBtn />
                   )}

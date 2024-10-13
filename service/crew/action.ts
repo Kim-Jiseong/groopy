@@ -49,6 +49,16 @@ export const getCrewInfoByID = async (crew_id:string | number) => {
         return crew
 
     }
+export const getPublishedCrewInfoByCrewID = async (crew_id:string | number) => {
+    const supabase = createClient();
+        const { data: crew, error: crewError } = await supabase
+                .from("published_crew").select("*").eq("crew_id", crew_id)
+
+        if(crew){
+          return crew[crew?.length - 1]
+        }
+
+    }
 
 export const getCrewFullData = async (crewId: number) => {
     // Initialize the Supabase client

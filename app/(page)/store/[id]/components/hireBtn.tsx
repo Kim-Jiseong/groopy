@@ -13,10 +13,10 @@ import { ToastAction } from "@/components/ui/toast";
 
 function HireBtn({
   profile,
-  crewInfo,
+  publishedCrewInfo,
 }: {
   profile: Tables<"profile">;
-  crewInfo: Tables<"crew">;
+  publishedCrewInfo: Tables<"published_crew">;
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isCrewEmployed, setIsCrewEmployed] = useState<
@@ -32,9 +32,9 @@ function HireBtn({
       setIsLoading(true);
       const InsertEmployedCrew = await createEmployedCrew(
         profile.id,
-        crewInfo.usage,
+        publishedCrewInfo.usage,
         {
-          crew_id: crewInfo.id,
+          crew_id: publishedCrewInfo.crew_id as number,
           profile_id: profile.id,
           is_owner: false,
           is_favorite: false,
@@ -66,10 +66,10 @@ function HireBtn({
       const employedCrewList = await getEmployedCrewListByProfileId(profile.id);
 
       const matchedCrew = employedCrewList.find(
-        (crew) => crew.crew_id === crewInfo.id
+        (crew) => crew.crew_id === publishedCrewInfo.crew_id
       );
 
-      console.log(matchedCrew);
+      // console.log(matchedCrew);
       setIsCrewEmployed(matchedCrew || false);
     } catch (error) {
       console.error("employed_crew 조회 중 오류:", error);

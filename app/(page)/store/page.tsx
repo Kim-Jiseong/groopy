@@ -23,7 +23,7 @@ function StorePage() {
   const [sortBy, setSortBy] = useState("popular");
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [groopList, setGroopList] = useState<Tables<"crew">[]>([]);
+  const [groopList, setGroopList] = useState<Tables<"published_crew">[]>([]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,7 +45,7 @@ function StorePage() {
       console.error("Error searching crew:", error);
       setGroopList([]);
     } else {
-      // console.log("data", data);
+      console.log("data", data);
       setGroopList(data);
     }
     setIsLoading(false);
