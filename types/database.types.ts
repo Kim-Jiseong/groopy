@@ -206,6 +206,7 @@ export type Database = {
           employed_crew_id: number
           id: number
           is_deleted: boolean | null
+          last_check_time: string | null
           title: string
           updated_at: string
         }
@@ -214,6 +215,7 @@ export type Database = {
           employed_crew_id: number
           id?: number
           is_deleted?: boolean | null
+          last_check_time?: string | null
           title?: string
           updated_at?: string
         }
@@ -222,6 +224,7 @@ export type Database = {
           employed_crew_id?: number
           id?: number
           is_deleted?: boolean | null
+          last_check_time?: string | null
           title?: string
           updated_at?: string
         }
@@ -438,6 +441,51 @@ export type Database = {
           },
         ]
       }
+      knowledge: {
+        Row: {
+          agent_id: number | null
+          created_at: string
+          file_metadata: Json | null
+          file_path: string | null
+          id: number
+          is_deleted: boolean
+          published_agent_id: number | null
+        }
+        Insert: {
+          agent_id?: number | null
+          created_at?: string
+          file_metadata?: Json | null
+          file_path?: string | null
+          id?: number
+          is_deleted?: boolean
+          published_agent_id?: number | null
+        }
+        Update: {
+          agent_id?: number | null
+          created_at?: string
+          file_metadata?: Json | null
+          file_path?: string | null
+          id?: number
+          is_deleted?: boolean
+          published_agent_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "agent"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "knowledge_published_agent_id_fkey"
+            columns: ["published_agent_id"]
+            isOneToOne: false
+            referencedRelation: "published_agent"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       llm: {
         Row: {
           created_at: string
@@ -613,13 +661,6 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "profile_user_id_fkey1"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "user_country_id_fkey"
             columns: ["country_id"]
             isOneToOne: false
@@ -671,13 +712,6 @@ export type Database = {
             columns: ["country_id"]
             isOneToOne: false
             referencedRelation: "country"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "profile_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: true
-            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -1369,4 +1403,19 @@ export type Enums<
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof PublicSchema["CompositeTypes"]
+    | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never

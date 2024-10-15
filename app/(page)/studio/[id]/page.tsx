@@ -15,6 +15,7 @@ import { CrewFullData } from "@/types/data";
 import { Tables } from "@/types/database.types";
 import { getLlms } from "@/service/llm/action";
 import { getTools } from "@/service/tool/action";
+import KnowledgeEditor from "./components/knowledge/knowledgeEditor";
 
 const renderTabContent = (
   selectedTab: string,
@@ -45,8 +46,8 @@ const renderTabContent = (
           tools={tools}
         />
       );
-    // case "tools":
-    //   return <ToolsEditor crewInfo={crewInfo} />;
+    case "knowledge":
+      return <KnowledgeEditor crewInfo={crewInfo} />;
     default:
       return <div>Error: Not proper tab</div>;
   }

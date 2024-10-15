@@ -15,6 +15,7 @@ import { supabase } from "@/lib/supabaseClient";
 
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tables } from "@/types/database.types";
+import { useRouter } from "next/navigation";
 interface GroopProps extends Tables<"employed_crew"> {
   published_crew: Tables<"published_crew">;
 }
@@ -24,6 +25,9 @@ function MyGroopPage({ profile }: { profile: Tables<"profile"> }) {
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [groopList, setGroopList] = useState<GroopProps[]>([]);
+
+  const router = useRouter();
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Searching for:", searchTerm);
@@ -97,19 +101,38 @@ function MyGroopPage({ profile }: { profile: Tables<"profile"> }) {
             </SelectContent>
           </Select>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {!isLoading
-            ? groopList.map((groop) => (
+        <div
+          className={`grid grid-cols-1 md:grid-cols-3
+              gap-4`}
+        >
+          {!isLoading ? (
+            groopList.length === 0 ? (
+              <div className={`w-full text-gray-500 flex flex-col gap-4`}>
+                You haven&apos;t hire any groops yet. <br /> Click the button
+                below to find and hire your first groop.
+                <br />
+                <Button
+                  className="max-w-sm"
+                  onClick={() => router.push("/store")}
+                >
+                  Find groop
+                </Button>
+              </div>
+            ) : (
+              groopList.map((groop) => (
                 <GroopCard key={groop.id} groop={groop} />
               ))
-            : Array(3)
-                .fill(0)
-                .map((_, index) => (
-                  <Skeleton
-                    key={index}
-                    className="flex flex-col h-[280px] transition-all duration-300 ease-in-out cursor-pointer"
-                  />
-                ))}
+            )
+          ) : (
+            Array(3)
+              .fill(0)
+              .map((_, index) => (
+                <Skeleton
+                  key={index}
+                  className="flex flex-col h-[280px] transition-all duration-300 ease-in-out cursor-pointer"
+                />
+              ))
+          )}
         </div>
       </div>
     </div>

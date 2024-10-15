@@ -13,6 +13,7 @@ function Sidebar({
     { name: "Groop", key: "crew" },
     { name: "Tasks", key: "tasks" },
     { name: "Agents", key: "agents" },
+    { name: "Knowledge", key: "knowledge" },
   ];
   return (
     <div className="w-32 h-full flex flex-col justify-between border-r border-divider shrink-0">
