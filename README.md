@@ -12,8 +12,13 @@ Groopy의 데모 버전을 확인하려면 [groopy.me](https://groopy.me)로 접
 
 [Visit groopy here!](https://groopy.me)
 
+사용 방법은 다음 동영상에서 확인하세요.
 If you want to know how to use, check this video.
-[groopy demo Video](https://youtu.be/XxllW58vVt4)
+[groopy demo Video](https://youtu.be/IdaT8h_8SJk)
+
+---
+
+---
 
 ---
 
