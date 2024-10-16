@@ -65,7 +65,7 @@ function GroopEditor({
   };
 
   const handleUpdateCrew = (updatedFields: TablesUpdate<"crew">) => {
-    setCrewData({ ...crewData, ...updatedFields });
+    setCrewData({ ...crewData, ...updatedFields, llm_id: 5 });
   };
 
   return (
