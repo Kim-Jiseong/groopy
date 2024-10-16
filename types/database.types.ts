@@ -491,6 +491,7 @@ export type Database = {
           created_at: string
           description: string | null
           detail: string | null
+          display_name: string | null
           id: number
           input_price: number | null
           is_popular: boolean
@@ -502,6 +503,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           detail?: string | null
+          display_name?: string | null
           id?: number
           input_price?: number | null
           is_popular?: boolean
@@ -513,6 +515,7 @@ export type Database = {
           created_at?: string
           description?: string | null
           detail?: string | null
+          display_name?: string | null
           id?: number
           input_price?: number | null
           is_popular?: boolean

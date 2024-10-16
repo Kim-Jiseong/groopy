@@ -1,12 +1,14 @@
+"use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
+
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tables } from "@/types/database.types";
 import { useRouter } from "next/navigation";
@@ -17,6 +19,7 @@ export default function GroopCard({
   groop: Tables<"published_crew">;
 }) {
   const router = useRouter();
+
   return (
     <Card
       className="flex flex-col h-[280px] transition-all duration-300 ease-in-out cursor-pointer hover:shadow-lg hover:scale-105 group"

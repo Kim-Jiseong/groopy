@@ -53,8 +53,10 @@ export const createEmployedCrew = async (
       .from('employed_crew')
       .select('*')
       .eq('profile_id', profileId)
-      .eq('crew_id', insertData.crew_id);
-  
+      .eq('crew_id', insertData.crew_id)
+      .eq('is_owner', false)
+      .eq('is_deleted', false)
+  console.log(data)
     if (error) {
       throw new Error('조회 중 오류가 발생했습니다.');
     }
@@ -115,8 +117,8 @@ export async function updateEmployedCrew(id:number, updateData:TablesUpdate<"emp
       if (error) {
         console.error(`Error updating employed_crew ${id}:`, error);
         return null;
-      }
-      revalidatePath('/groop');
+      }  
+      revalidatePath(`/`,'layout');
       return data;
     }
     

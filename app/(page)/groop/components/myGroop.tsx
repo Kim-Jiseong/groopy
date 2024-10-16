@@ -31,15 +31,15 @@ function MyGroopPage({ profile }: { profile: Tables<"profile"> }) {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Searching for:", searchTerm);
-    getGroopList(searchTerm);
+    getGroopList();
   };
 
-  const getGroopList = async (searchText: string) => {
+  const getGroopList = async () => {
     setIsLoading(true);
 
     const { data, error } = await supabase.rpc("search_my_crew", {
       p_profile_id: profile.id,
-      search_text: searchText,
+      search_text: searchTerm,
     });
 
     if (error) {
@@ -70,7 +70,7 @@ function MyGroopPage({ profile }: { profile: Tables<"profile"> }) {
 
   useEffect(() => {
     if (searchTerm === "") {
-      getGroopList(searchTerm);
+      getGroopList();
     }
   }, [selectedTag, searchTerm, sortBy]);
   return (
@@ -120,7 +120,11 @@ function MyGroopPage({ profile }: { profile: Tables<"profile"> }) {
               </div>
             ) : (
               groopList.map((groop) => (
-                <GroopCard key={groop.id} groop={groop} />
+                <GroopCard
+                  key={groop.id}
+                  groop={groop}
+                  getGroopList={getGroopList}
+                />
               ))
             )
           ) : (

@@ -171,7 +171,7 @@ const AgentItem: React.FC<AgentItemProps> = ({
                           .filter((llm) => llm.is_popular)
                           .map((llm) => (
                             <SelectItem value={llm.id.toString()} key={llm.id}>
-                              {llm.name}
+                              {llm.display_name}
                             </SelectItem>
                           ))}
                       </SelectGroup>
@@ -182,7 +182,7 @@ const AgentItem: React.FC<AgentItemProps> = ({
                           .filter((llm) => !llm.is_popular)
                           .map((llm) => (
                             <SelectItem value={llm.id.toString()} key={llm.id}>
-                              {llm.name}
+                              {llm.display_name}
                             </SelectItem>
                           ))}
                       </SelectGroup>

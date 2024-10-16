@@ -6,12 +6,12 @@ const MessageList = React.memo(
   ({ messages }: { messages: Tables<"message">[] }) => (
     <div className="flex flex-col">
       {messages
-        .filter(
-          (message) =>
-            message.role === "user" ||
-            message.type === "task" ||
-            (message.type === null && message.role === "assistant")
-        )
+        // .filter(
+        //   (message) =>
+        //     message.role === "user" ||
+        //     message.type === "task" ||
+        //     (message.type === null && message.role === "assistant")
+        // )
         .map((message) => (
           <div
             key={message.id}

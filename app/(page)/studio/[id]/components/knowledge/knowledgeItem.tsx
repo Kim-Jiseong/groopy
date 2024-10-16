@@ -122,7 +122,7 @@ const KnowledgeItemComponent: React.FC<KnowledgeItemProps> = ({
         if (!file) continue;
         const fileExt = file.name.split(".").pop();
         const timestamp = Date.now().toString();
-        const filePath = `knowledge/${agent.id}/${timestamp}.${fileExt}`;
+        const filePath = `${agent.id}/${timestamp}.${fileExt}`;
 
         const { data: storageData, error: storageError } =
           await supabase.storage.from("knowledge").upload(filePath, file);

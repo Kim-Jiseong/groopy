@@ -40,6 +40,7 @@ function HireBtn({
           is_favorite: false,
         }
       );
+      console.log(InsertEmployedCrew);
       if (InsertEmployedCrew.data) {
         toast({
           title: "Groop Hired!",
@@ -66,19 +67,20 @@ function HireBtn({
       const employedCrewList = await getEmployedCrewListByProfileId(profile.id);
 
       const matchedCrew = employedCrewList.find(
-        (crew) => crew.crew_id === publishedCrewInfo.crew_id
+        (crew) => crew.crew_id === publishedCrewInfo.crew_id && !crew.is_owner
       );
 
-      // console.log(matchedCrew);
       setIsCrewEmployed(matchedCrew || false);
     } catch (error) {
       console.error("employed_crew 조회 중 오류:", error);
       setIsCrewEmployed(false);
     }
   };
+
   useEffect(() => {
     checkIsHired();
   }, []);
+
   return (
     <Button
       className="w-full"
